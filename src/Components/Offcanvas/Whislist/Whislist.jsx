@@ -29,7 +29,7 @@ const Whislist = ({ iconsText, isScrolled }) => {
   const dispatch = useDispatch();
   const products = useSelector(selectWishlistProducts);
   const currentUser = useSelector(selectUserAuth);
- 
+
   // ---
 
   useEffect(() => {
@@ -112,8 +112,8 @@ const Whislist = ({ iconsText, isScrolled }) => {
 
       dispatch(setSnackBar(true)); // Show snackbar
     } catch (error) {
-      console.log("error :",error);
-      
+      console.log("error :", error);
+
       dispatch(
         setSnackBarMessage("Failed to move products to cart. Please try again.")
       );
@@ -131,8 +131,8 @@ const Whislist = ({ iconsText, isScrolled }) => {
   const handleShow = () => setShow(true);
 
   return (
-    <main className="wishList">
-      <div onClick={handleShow} style={{ cursor: "pointer" }}>
+    <main className="wishList px-0">
+      <div style={{ cursor: "pointer" }} onClick={handleShow}>
         <FaHeart color={isScrolled ? "white" : "#6441c7"} size={23} />
         <span className="icon-span"> {iconsText}</span>
       </div>
@@ -143,6 +143,7 @@ const Whislist = ({ iconsText, isScrolled }) => {
         enforceFocus={false}
         restoreFocus={false}
         scroll
+        className="custom-offcanvas"
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>{`My Wishlist (${products?.length})`}</Offcanvas.Title>

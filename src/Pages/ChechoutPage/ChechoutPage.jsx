@@ -11,12 +11,14 @@ import {
   getDeliveryAdrress,
   setOrderSuccessAlert,
   setGlobalLoader,
+  selectUserLoginDetails,
   // setOrderDetailsId,
 } from "../../Utils/Redux/productSlice";
 import {
   getAddress,
   removeDeliveryAddress,
   addOrderToFirestore,
+  addNotification,
 } from "../../Functions/wishlistService";
 // import { RiAddLine } from "react-icons/ri";
 import {
@@ -45,8 +47,11 @@ const ChechoutPage = () => {
   const location = useLocation();
   // const navigate = useNavigate();
   const currentUser = useSelector(selectUserAuth);
+  const userLoginDetails = useSelector(selectUserLoginDetails);
+
   const temAdress = useSelector(selectDeliveryAddress);
   const product = location.state?.chechoutProducts;
+  // console.log(" product:", product);
   const eachItemQuantity = location.state?.eachItemQuantity;
   // --------
   const [selectedOffers, setSelectedOffers] = useState([]);
@@ -55,7 +60,6 @@ const ChechoutPage = () => {
   const [quantity, setQuantity] = useState();
   const [payment, setPayment] = useState("");
   const [deliveryAdress, setDeliveryAddress] = useState([]);
-  console.log("deliveryAdress :", deliveryAdress);
 
   // --------
 
@@ -139,6 +143,11 @@ const ChechoutPage = () => {
 
         // Add the order to Firestore
         await addOrderToFirestore(orderDetails, dispatch);
+        await addNotification(
+          currentUser?.uid,
+          userLoginDetails?.displayName,
+          product[0]?.title
+        );
 
         // Show success message or navigate to a success page
         dispatch(setGlobalLoader(false));

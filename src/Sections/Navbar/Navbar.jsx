@@ -8,9 +8,7 @@ import {
   setGlobalLoader,
   setReferrAndEarnBOx,
 } from "../../Utils/Redux/productSlice";
-import { useSelector } from "react-redux";
 import { IoHome } from "react-icons/io5";
-import { selectCartCount } from "../../Utils/Redux/productSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { auth } from "../../Utils/Firbase/firebaseConfig";
@@ -22,7 +20,7 @@ import ProfileOffcanvas from "../../Components/Offcanvas/ProfileOffcanvas/Profil
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-// import Whislist from "../../Components/Offcanvas/Whislist/Whislist";
+import Whislist from "../../Components/Offcanvas/Whislist/Whislist";
 import LoginDropdown from "../../Pages/Login/LoginDropdown";
 import Header from "../Header/Header";
 import Notification from "../../components/Subcomponents/Notification";
@@ -36,13 +34,17 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import { IoMdCart, IoMdNotifications } from "react-icons/io";
+import { IoIosArrowDown, IoMdCart, IoMdNotifications } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
-import { TbCategoryPlus } from "react-icons/tb";
+import { onSnapshot } from "firebase/firestore";
+import {
+  cartCollection,
+  notificationRef,
+} from "../../Functions/wishlistService";
+
 // ---
 const Navbars = ({ user }) => {
   const navigate = useNavigate();
-  const cartCount = useSelector(selectCartCount);
   const dispatch = useDispatch();
   const location = useLocation();
   const locationPath = location.pathname;
@@ -52,6 +54,8 @@ const Navbars = ({ user }) => {
   const [activeMobileNav, setActiveMobileNav] = useState("home");
   const [query, setQuery] = useState("");
   const [isNotification, setIsNotification] = useState(false);
+  const [notification, setNotificationCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     console.log("refreshing...");
@@ -76,6 +80,42 @@ const Navbars = ({ user }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // FETCHING NOTIFICATION COUNT
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const unsubscribe = onSnapshot(notificationRef, (snapshot) => {
+      const notificationsData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const userNotifications = notificationsData.filter(
+        (notification) => notification.userId === user.uid
+      );
+      setNotificationCount(userNotifications.length);
+    });
+
+    return () => unsubscribe();
+  }, [user?.uid]);
+
+  // CONST FETCHING CART COUNT
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const unsubscribe = onSnapshot(cartCollection, (snapshot) => {
+      const cartCountData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const userCartCount = cartCountData.filter(
+        (eachCount) => eachCount.userId === user.uid
+      );
+      setCartCount(userCartCount.length);
+    });
+
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -115,6 +155,26 @@ const Navbars = ({ user }) => {
     }
   };
 
+  // rendering notification badge
+  const renderNotificationBager = () => {
+    return (
+      <>
+        <Badge badgeContent={notification} color="primary">
+          <IoMdNotifications
+            size={25}
+            fill={isScrolled ? "white" : "black"}
+            onClick={() => setIsNotification(!isNotification)}
+          />
+        </Badge>
+        {isNotification && (
+          <div className="testing-notification mt-3">
+            <Notification />
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <main className={`${isScrolled && "activeNavbarMain"}  navbarMain`}>
       {/* <main className="navbarMain"> */}
@@ -150,10 +210,14 @@ const Navbars = ({ user }) => {
                   onClick={() => setIsHeader(!isHeader)}
                   style={{ cursor: "pointer" }}
                 >
-                  <TbCategoryPlus
-                    size={25}
-                    color={isScrolled ? "white" : "black"}
-                  />
+                  <p
+                    className={`${
+                      isScrolled ? "text-white" : "text-dark"
+                    } categoryNav px-2`}
+                  >
+                    Categories
+                    <IoIosArrowDown />
+                  </p>{" "}
                 </div>
               </Nav>
 
@@ -179,6 +243,9 @@ const Navbars = ({ user }) => {
               </form>
 
               <div className="d-flex justify-content-center align-items-center">
+                <div className="df">
+                  <Whislist isScrolled={isScrolled} />
+                </div>
                 <div>
                   {user ? (
                     <CustomProfileDropdown
@@ -213,20 +280,8 @@ const Navbars = ({ user }) => {
                   className="ms-3 position-relative"
                   style={{ width: "50px", cursor: "pointer" }}
                 >
-                  <IoMdNotifications
-                    size={25}
-                    fill={isScrolled ? "white" : "black"}
-                    onClick={() => setIsNotification(!isNotification)}
-                  />
-                  {isNotification && (
-                    <div className="testing-notification mt-3">
-                      <Notification />
-                    </div>
-                  )}
+                  {renderNotificationBager()}
                 </div>
-                {/* <div className="df" style={{ width: "50px" }}>
-                  <Whislist isScrolled={isScrolled} />
-                </div> */}
               </div>
             </div>
           </Navbar.Collapse>
@@ -409,6 +464,11 @@ export const CustomProfileDropdown = ({
         >
           Profile
         </MenuItem>
+        {/* <MenuItem >
+          <div style={{ width: "50px" }}>
+            <Whislist iconsText="WishList" />
+          </div>
+        </MenuItem> */}
 
         <MenuItem
           onClick={() => {

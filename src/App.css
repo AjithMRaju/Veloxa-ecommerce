@@ -368,6 +368,15 @@ footer h4 {
 /* BUTTONS */
 
 /* COMMAN CLASSES */
+.categoryNav {
+  font-size: small;
+  transition: all 0.3ms ease-in-out;
+}
+.categoryNav:hover {
+  background: #ffffff40;
+
+  border-radius: 1rem;
+}
 
 .upcoming-title {
   background-color: #e3def1;
@@ -570,8 +579,8 @@ button.refreshButn {
 } */
 
 .icon-span {
-  font-weight: 700;
-  margin-left: 1rem;
+  /* font-weight: 700; */
+  /* margin-left: 1rem; */
 }
 
 .offcanvas-profile {
@@ -743,10 +752,10 @@ button.refreshButn {
   z-index: 999;
 }
 
-.wishList,
+/* .wishList,
 .offcanvas {
   width: 600px !important;
-}
+} */
 
 /* COMMAN CLASSES */
 
@@ -1514,7 +1523,7 @@ button.refreshButn {
     color: var(--primery);
   }
 
-  .activeAddress-tag{
+  .activeAddress-tag {
     border: 1px solid #03a500;
     border-radius: 20px;
   }
@@ -1563,7 +1572,7 @@ button.refreshButn {
     color: var(--primery);
   }
 
-  .activeAddress-tag{
+  .activeAddress-tag {
     border: 1px solid #03a500;
     border-radius: 20px;
   }
@@ -1592,8 +1601,7 @@ button.refreshButn {
     bottom: 4rem;
     right: 0;
     left: 0;
-    
-    
+
     .renderAddress-btn {
       border: 1px solid var(--buttonSecondary);
       color: var(--brandColor);
@@ -1607,11 +1615,12 @@ button.refreshButn {
       background: var(--buttonSecondary);
       color: var(--primery);
     }
-  
-    .activeAddress-tag{
+
+    .activeAddress-tag {
       border: 1px solid #03a500;
       border-radius: 20px;
-    }z-index: 1500;
+    }
+    z-index: 1500;
   }
 }
 
@@ -1647,7 +1656,9 @@ button.refreshButn {
     /* bottom: -3rem; */
     right: 0;
     width: 400px;
-    height: 300px;
+    max-height: 450px;
+    overflow-y: scroll;
+    overflow-x: hidden;
     background: white;
     border-radius: 10px;
     border: 1px solid var(--buttonSecondary);
@@ -2111,6 +2122,10 @@ button.refreshButn {
   .wishList,
   .offcanvas-body {
     padding: 0 2rem;
+  }
+
+  .custom-offcanvas {
+    width: 550px !important;
   }
 
   .wishList,
@@ -2942,7 +2957,7 @@ button.refreshButn {
     color: var(--primery);
   }
 
-  .activeAddress-tag{
+  .activeAddress-tag {
     border: 1px solid #03a500;
     border-radius: 20px;
   }
@@ -3118,4 +3133,29 @@ button.refreshButn {
   100% {
     left: 100%;
   }
+}
+
+/* Width and height of scrollbar */
+::-webkit-scrollbar {
+  width: 10px; /* Width for vertical scrollbar */
+  height: 10px; /* Height for horizontal scrollbar */
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: none;
+  border-radius: 5px;
+  padding: 5px; /* Padding won't apply directly but affects track size */
+}
+
+/* Handle (scroll thumb) */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  padding: 2px;
+}
+
+/* On hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brandColor);
 }

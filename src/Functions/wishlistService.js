@@ -21,8 +21,9 @@ import {
 } from "../Utils/Redux/productSlice";
 
 const wishlistCollection = collection(db, "wishlists");
-const cartCollection = collection(db, "cartCollection");
+export const cartCollection = collection(db, "cartCollection");
 const addressCollectionRef = collection(db, "deliveryAddress");
+export const notificationRef = collection(db, "notifications");
 
 // WISHLIST FUNCTIONS.....
 export const addToWishlist = async (
@@ -237,7 +238,6 @@ export const deleteOrderFromFirestore = async (orderId, dispatch) => {
   try {
     const orderDocRef = doc(db, "orderRecords", orderId);
     await deleteDoc(orderDocRef);
-    console.log(`Order with ID: ${orderId} deleted successfully.`);
   } catch (error) {
     dispatch(setGlobalLoader(false));
     console.error("Error deleting order: ", error);
@@ -246,7 +246,6 @@ export const deleteOrderFromFirestore = async (orderId, dispatch) => {
     dispatch(setGlobalLoader(false));
   }
 };
-
 
 // Function to add order details to Firestore
 export const addOrderToFirestore = async (orderDetails, dispatch) => {
@@ -261,7 +260,6 @@ export const addOrderToFirestore = async (orderDetails, dispatch) => {
   }
 };
 
-
 // function to get order form firBase collection
 export const getOrderRecords = async (userId) => {
   try {
@@ -270,15 +268,40 @@ export const getOrderRecords = async (userId) => {
 
     const querySnapshot = await getDocs(q);
     const userOrders = [];
-    querySnapshot.forEach((doc)=>{
+    querySnapshot.forEach((doc) => {
       userOrders.push({
-        orderId:doc.id,
-        products:doc.data().products
-      })
-    })
+        orderId: doc.id,
+        products: doc.data().products,
+      });
+    });
     return userOrders;
   } catch (error) {
     console.error("Error fetching orders: ", error);
-    throw error; 
+    throw error;
+  }
+};
+
+// CONST NOTIFICATION ADDING FUNCTIONS
+export const addNotification = async (userId, userName, productName) => {
+  const notificationData = {
+    message: "Order Confirmed",
+    description: `Hello ${userName},your order for ${productName} is confirmed! We'll notify you when its ready to ship.`,
+    timestamp: new Date(),
+    userId: userId,
+  };
+  await addDoc(notificationRef, notificationData);
+};
+
+export const getUserNotifications = async (userId) => {
+  if (!userId) {
+    return [];
+  }
+  try {
+    const q = query(notificationRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    return [];
   }
 };
