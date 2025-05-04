@@ -33,13 +33,14 @@ import OrderSuccess from "./Components/Alert/OrderSuccess/OrderSuccess";
 import OrderDetails from "./Pages/orderDetails/OrderDetails";
 import UserOrders from "./Pages/userOrders/UserOrders";
 import NotificationPage from "./Pages/NotificationPage/NotificationPage";
-import UserProfile from "./Pages/userProfile/userProfile";
+import UserProfile from "./Pages/userProfile/UserProfile";
+
 
 // ----
 function App() {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
-  
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
