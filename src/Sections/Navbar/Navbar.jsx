@@ -23,7 +23,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Whislist from "../../Components/Offcanvas/Whislist/Whislist";
 import LoginDropdown from "../../Pages/Login/LoginDropdown";
 import Header from "../Header/Header";
-import Notification from "../../components/Subcomponents/Notification";
+import Notification from "../../Components/Subcomponents/Notification";
 import MarqueeC from "../../Components/Marquee/Marquee";
 import {
   Avatar,
@@ -179,20 +179,18 @@ const Navbars = ({ user }) => {
     <main className={`${isScrolled && "activeNavbarMain"}  navbarMain`}>
       {/* <main className="navbarMain"> */}
       <div
-        className={`${
-          locationPath == "/signUp"
+        className={`${locationPath == "/signUp"
             ? "d-none"
             : "navTop navbar-hidden d-flex justify-content-center align-items-center"
-        }`}
+          }`}
       >
         <MarqueeC />
       </div>
 
       <Navbar
         expand="lg"
-        className={`${
-          locationPath == "/signUp" ? "d-none" : "mt-lg-3 navbar-hidden"
-        } "`}
+        className={`${locationPath == "/signUp" ? "d-none" : "mt-lg-3 navbar-hidden"
+          } "`}
       >
         <Container>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -211,9 +209,8 @@ const Navbars = ({ user }) => {
                   style={{ cursor: "pointer" }}
                 >
                   <p
-                    className={`${
-                      isScrolled ? "text-white" : "text-dark"
-                    } categoryNav px-2`}
+                    className={`${isScrolled ? "text-white" : "text-dark"
+                      } categoryNav px-2`}
                   >
                     Categories
                     <IoIosArrowDown />
@@ -290,9 +287,8 @@ const Navbars = ({ user }) => {
 
       {isHeader && (
         <div
-          className={`${
-            locationPath == "/signUp" ? "d-none" : "d-none d-lg-block"
-          } `}
+          className={`${locationPath == "/signUp" ? "d-none" : "d-none d-lg-block"
+            } `}
         >
           <Header locationPath={locationPath} isScrolled={isScrolled} />
         </div>
@@ -305,9 +301,8 @@ const Navbars = ({ user }) => {
           style={{ listStyle: "none" }}
         >
           <li
-            className={`${
-              activeMobileNav === "Home" && "enableActiveNav"
-            } d-flex flex-column text-white justify-content-center align-items-center`}
+            className={`${activeMobileNav === "Home" && "enableActiveNav"
+              } d-flex flex-column text-white justify-content-center align-items-center`}
             onClick={() => setActiveMobileNav("Home")}
           >
             <Link to="/">
@@ -315,25 +310,22 @@ const Navbars = ({ user }) => {
             </Link>
           </li>
           <li
-            className={`${
-              activeMobileNav === "Category" && "enableActiveNav"
-            } d-flex flex-column justify-content-center align-items-center`}
+            className={`${activeMobileNav === "Category" && "enableActiveNav"
+              } d-flex flex-column justify-content-center align-items-center`}
             onClick={() => setActiveMobileNav("Category")}
           >
             <CartOffcanvas />
           </li>
           <li
-            className={`${
-              activeMobileNav === "Cart" && "enableActiveNav"
-            } d-flex flex-column justify-content-center align-items-center`}
+            className={`${activeMobileNav === "Cart" && "enableActiveNav"
+              } d-flex flex-column justify-content-center align-items-center`}
             onClick={() => setActiveMobileNav("Cart")}
           >
             <CustomCartIcon cartCount={cartCount} />
           </li>
           <li
-            className={`${
-              activeMobileNav === "Profile" && "enableActiveNav"
-            } d-flex flex-column justify-content-center align-items-center`}
+            className={`${activeMobileNav === "Profile" && "enableActiveNav"
+              } d-flex flex-column justify-content-center align-items-center`}
             onClick={() => setActiveMobileNav("Profile")}
           >
             <ProfileOffcanvas />
