@@ -1,4 +1,4 @@
-import Notification from "../../components/Subcomponents/Notification";
+import Notification from "../../Components/Subcomponents/Notification";
 const NotificationPage = () => {
   const customSize = {
     width: "100vw",

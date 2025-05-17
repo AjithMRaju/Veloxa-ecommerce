@@ -23,7 +23,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Whislist from "../../Components/Offcanvas/Whislist/Whislist";
 import LoginDropdown from "../../Pages/Login/LoginDropdown";
 import Header from "../Header/Header";
-import Notification from "../../Components/Subcomponents/Notification";
+import Notification from "../../Components/Subcomponents/Notification"
 import MarqueeC from "../../Components/Marquee/Marquee";
 import {
   Avatar,
@@ -180,8 +180,8 @@ const Navbars = ({ user }) => {
       {/* <main className="navbarMain"> */}
       <div
         className={`${locationPath == "/signUp"
-            ? "d-none"
-            : "navTop navbar-hidden d-flex justify-content-center align-items-center"
+          ? "d-none"
+          : "navTop navbar-hidden d-flex justify-content-center align-items-center"
           }`}
       >
         <MarqueeC />
