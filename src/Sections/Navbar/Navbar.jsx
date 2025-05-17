@@ -42,7 +42,7 @@ import {
   notificationRef,
 } from "../../Functions/wishlistService";
 
-// ---
+// --- for testing
 const Navbars = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
